@@ -1,13 +1,221 @@
+/* The RISO inks used in the sketch, so the page and the picture match */
+:root {
+  --navy: #14213D;
+  --navy-light: #1E2F57;
+  --teal: #00838A;
+  --sunflower: #FFB511;
+  --orange: #FF6C2F;
+  --pink: #FF48B0;
+  --cream: #FFF4DC;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f0f0f0;
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--navy);
+  color: var(--cream);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* A honeycomb pattern that drifts slowly behind everything.
+   The tile is 56 x 100, so moving it exactly that far makes a seamless loop. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%231E2F57' stroke-width='2'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%231E2F57' stroke-width='2'/%3E%3C/svg%3E");
+  background-size: 56px 100px;
+  animation: drift 40s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes drift {
+  from { background-position: 0 0; }
+  to   { background-position: 56px 100px; }
+}
+
+/* ---------------------------------------------------------------
+   LAYOUT: text on the left, canvas on the right */
+.page {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  max-width: 1400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ---------------------------------------------------------------
+   TEXT */
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sunflower);
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  /* a pink and a teal shadow, like two inks printed slightly out of line */
+  text-shadow: 3px 3px 0 var(--pink), 6px 6px 0 var(--teal);
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+.lede {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+em {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--sunflower);
+}
+
+/* things on the left slide up one after another when the page loads */
+.intro > * {
+  opacity: 0;
+  animation: rise 0.7s ease-out forwards;
+}
+.intro > *:nth-child(1) { animation-delay: 0.05s; }
+.intro > *:nth-child(2) { animation-delay: 0.15s; }
+.intro > *:nth-child(3) { animation-delay: 0.30s; }
+.intro > *:nth-child(4) { animation-delay: 0.45s; }
+.intro > *:nth-child(5) { animation-delay: 0.60s; }
+.intro > *:nth-child(6) { animation-delay: 0.75s; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------
+   LINKS: hexagon-shaped buttons */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.75rem 0 1.5rem;
+}
+
+.hex-link {
+  display: inline-block;
+  padding: 0.9rem 1.5rem;
+  background: var(--sunflower);
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: none;
+  clip-path: polygon(14% 0, 86% 0, 100% 50%, 86% 100%, 14% 100%, 0 50%);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.hex-link:nth-child(2) { background: var(--orange); }
+.hex-link:nth-child(3) { background: var(--pink); }
+
+.hex-link:hover,
+.hex-link:focus-visible {
+  background: var(--cream);
+  transform: translateY(-4px) rotate(-3deg);
+  outline: none;
+}
+
+.small {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.small a {
+  color: var(--cream);
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.small a:hover {
+  color: var(--sunflower);
+}
+
+/* the easter egg hint is faint until you look for it */
+.psst {
+  display: block;
+  margin-top: 0.4rem;
+  font-style: italic;
+  opacity: 0.35;
+  transition: opacity 0.3s;
+}
+.psst:hover {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------
+   THE CANVAS: moved to the right, tilted, with stacked ink shadows.
+   p5 sets a fixed pixel size on the canvas, so these rules shrink it to fit. */
+#sketch-holder {
+  justify-self: end;
+  width: min(100%, 780px);
+  margin-right: -1rem;
+  transform: rotate(2deg);
+  animation: float 7s ease-in-out infinite;
+}
+
+#sketch-holder canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  border: 6px solid var(--cream);
+  box-shadow:
+    12px 12px 0 var(--pink),
+    24px 24px 0 var(--sunflower);
+}
+
+@keyframes float {
+  0%, 100% { transform: rotate(2deg) translateY(0); }
+  50%      { transform: rotate(1.2deg) translateY(-8px); }
+}
+
+/* ---------------------------------------------------------------
+   SMALL SCREENS: stack the text above the picture */
+@media (max-width: 880px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
+  }
+  #sketch-holder {
+    justify-self: center;
+    margin: 0 1.5rem 2rem 0;
+  }
+}
+
+/* people who ask for less motion get a still page */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  #sketch-holder,
+  .intro > * {
+    animation: none;
+    opacity: 1;
+  }
 }

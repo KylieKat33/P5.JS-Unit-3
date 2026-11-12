@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homework 10</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.4/lib/p5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5.sound@0.4.1/dist/p5.sound.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brian's Creative Code</title>
+  <meta name="description" content="A homepage for my creative coding homework and final project, with my Homework 7 daisy and honeycomb remade in p5.js.">
+
+  <!-- custom fonts from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- the p5.js library, then my sketch -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="sketch.js" defer></script>
 </head>
 <body>
-    <script src="sketch.js"></script>
+  <main class="page">
+
+    <section class="intro">
+      <p class="eyebrow">Creative Code &middot; Fall 2026</p>
+      <h1>Patterns, with a little chaos.</h1>
+      <p class="lede">
+        This is where my creative coding work lives. Every piece starts with a rule that
+        repeats, like petals around a flower or cells in a honeycomb, and then I let
+        <em>random()</em> bend the rule a little so nothing comes out the same twice.
+      </p>
+      <p>
+        The picture on this page is my Homework 7, remade in p5.js. The daisy and the
+        honeycomb are both built from for loops. New in this version: a bee that glides
+        around using <em>noise()</em>. Click the picture to re-roll everything, and hover
+        over the hexagons to light them up.
+      </p>
+
+      <nav class="links" aria-label="My projects">
+        <a class="hex-link" href="hw7/">Homework 7</a>
+        <a class="hex-link" href="hw8/">Homework 8</a>
+        <a class="hex-link" href="project2/">Project 2</a>
+      </nav>
+
+      <p class="small">
+        Made with <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a>.
+        The code is on <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>.
+        <span class="psst">bzzz&hellip; try pressing B.</span>
+      </p>
+    </section>
+
+    <!-- the p5 canvas is placed in here by sketch.js -->
+    <div id="sketch-holder"></div>
+
+  </main>
 </body>
 </html>
